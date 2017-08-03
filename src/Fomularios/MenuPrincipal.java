@@ -5,6 +5,7 @@
  */
 package Fomularios;
 
+import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,7 +38,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        Pane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -52,56 +53,73 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SISTEMA DE MANTENIMIENTO");
 
-        jDesktopPane1.setBackground(new java.awt.Color(153, 204, 255));
-        jDesktopPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Pane1.setBackground(new java.awt.Color(153, 204, 255));
+        Pane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout Pane1Layout = new javax.swing.GroupLayout(Pane1);
+        Pane1.setLayout(Pane1Layout);
+        Pane1Layout.setHorizontalGroup(
+            Pane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 905, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 403, Short.MAX_VALUE)
+        Pane1Layout.setVerticalGroup(
+            Pane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 486, Short.MAX_VALUE)
         );
 
         jMenuBar1.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenuBar1.setMargin(new java.awt.Insets(10, 10, 10, 10));
 
         jMenu4.setText("MAQUINARIA");
-        jMenu4.setFont(new java.awt.Font("Eras Bold ITC", 0, 12)); // NOI18N
+        jMenu4.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu4.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
         jMenuItem10.setText("NUEVA MAQUINA");
         jMenuItem10.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem10);
 
         jMenuBar1.add(jMenu4);
 
         jMenu1.setText("MANTENIMIENTOS");
-        jMenu1.setFont(new java.awt.Font("Eras Bold ITC", 0, 12)); // NOI18N
+        jMenu1.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu1.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
         jMenuItem1.setText("REALIZADOS");
+        jMenuItem1.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("PROXIMOS");
+        jMenuItem2.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("INDICADORES");
+        jMenuItem3.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("VERIFICACIONES ");
-        jMenu2.setFont(new java.awt.Font("Eras Bold ITC", 0, 12)); // NOI18N
+        jMenu2.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu2.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
         jMenuItem4.setText("MAQUINARIA CON VERIFIACION");
+        jMenuItem4.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -110,9 +128,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("PROXIMAS VERIFICACIONES");
+        jMenuItem5.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("HISTORIAL");
+        jMenuItem6.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -123,16 +143,35 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("SOLICITUDES DE SERVICIO");
-        jMenu3.setFont(new java.awt.Font("Eras Bold ITC", 0, 12)); // NOI18N
+        jMenu3.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu3.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
         jMenuItem7.setText("VER SOLICITUDES");
+        jMenuItem7.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu3.add(jMenuItem7);
 
         jMenuItem8.setText("HISTORIAL");
+        jMenuItem8.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu5.setForeground(new java.awt.Color(255, 0, 0));
+        jMenu5.setText("SALIR");
+        jMenu5.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
+
+        jMenuItem9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
+        jMenuItem9.setText("Salir");
+        jMenuItem9.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -140,11 +179,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(Pane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(Pane1)
         );
 
         pack();
@@ -157,6 +196,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        Maquina ma = new Maquina();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+         System.exit(1);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,11 +250,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane Pane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -209,5 +266,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }
