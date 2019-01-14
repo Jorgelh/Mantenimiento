@@ -5,6 +5,10 @@
  */
 package Fomularios;
 
+import Mantenimientos.HISTORIALMANT;
+import Mantenimientos.LISTARFECHA;
+import Mantenimientos.Programar;
+import Verificaciones.ProgramarVerificacion;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import javax.swing.UIManager;
@@ -39,18 +43,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         Pane1 = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -59,18 +68,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE MANTENIMIENTO");
 
-        Pane1.setBackground(new java.awt.Color(153, 204, 255));
+        Pane1.setBackground(new java.awt.Color(255, 255, 255));
         Pane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabel1.setFont(new java.awt.Font("Eras Bold ITC", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 204, 255));
+        jLabel1.setText("MANTENIMIENTO E IT ");
+
+        Pane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout Pane1Layout = new javax.swing.GroupLayout(Pane1);
         Pane1.setLayout(Pane1Layout);
         Pane1Layout.setHorizontalGroup(
             Pane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 905, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Pane1Layout.createSequentialGroup()
+                .addContainerGap(426, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(21, 21, 21))
         );
         Pane1Layout.setVerticalGroup(
             Pane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 486, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Pane1Layout.createSequentialGroup()
+                .addContainerGap(416, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(28, 28, 28))
         );
 
         jMenuBar1.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
@@ -80,6 +101,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu4.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu4.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/New.png"))); // NOI18N
         jMenuItem10.setText("NUEVA MAQUINA");
         jMenuItem10.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -89,20 +111,58 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem10);
 
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ajustes.png"))); // NOI18N
+        jMenuItem13.setText("LISTADO DE MAQUINARIA");
+        jMenuItem13.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem13);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
+        jMenuItem11.setText("DESCARTAR MAQUINA");
+        jMenuItem11.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenu4.add(jMenuItem11);
+
         jMenuBar1.add(jMenu4);
 
         jMenu1.setText("MANTENIMIENTOS");
         jMenu1.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu1.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
-        jMenuItem1.setText("REALIZADOS");
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
+        jMenuItem1.setText("INGRESAR");
         jMenuItem1.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("PROXIMOS");
-        jMenuItem2.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        jMenu1.add(jMenuItem2);
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Search.png"))); // NOI18N
+        jMenuItem12.setText("LISTAR POR RANGO DE FECHA");
+        jMenuItem12.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem12);
 
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Zoom.png"))); // NOI18N
+        jMenuItem16.setText("HISTORIAL");
+        jMenuItem16.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem16);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1481834876_tick_16.png"))); // NOI18N
         jMenuItem3.setText("INDICADORES");
         jMenuItem3.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +178,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu2.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
-        jMenuItem4.setText("MAQUINARIA CON VERIFIACION");
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
+        jMenuItem4.setText("INGRESO ");
         jMenuItem4.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,10 +188,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem4);
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Search.png"))); // NOI18N
         jMenuItem5.setText("PROXIMAS VERIFICACIONES");
         jMenuItem5.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu2.add(jMenuItem5);
 
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Zoom.png"))); // NOI18N
         jMenuItem6.setText("HISTORIAL");
         jMenuItem6.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -146,10 +209,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu3.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
         jMenu3.setMargin(new java.awt.Insets(10, 25, 10, 25));
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Next.png"))); // NOI18N
+        jMenuItem2.setText("INGRESO DE SOLICITUD");
+        jMenuItem2.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Search.png"))); // NOI18N
         jMenuItem7.setText("VER SOLICITUDES");
         jMenuItem7.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu3.add(jMenuItem7);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Zoom.png"))); // NOI18N
         jMenuItem8.setText("HISTORIAL");
         jMenuItem8.setMargin(new java.awt.Insets(5, 5, 5, 5));
         jMenu3.add(jMenuItem8);
@@ -159,6 +229,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu5.setForeground(new java.awt.Color(255, 0, 0));
         jMenu5.setText("SALIR");
         jMenu5.setFont(new java.awt.Font("Eras Bold ITC", 0, 14)); // NOI18N
+        jMenu5.setMargin(new java.awt.Insets(5, 5, 5, 5));
 
         jMenuItem9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
@@ -183,14 +254,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Pane1)
+            .addComponent(Pane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+        ProgramarVerificacion ma = new ProgramarVerificacion();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -213,6 +289,46 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Programar ma = new Programar();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+        
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+     
+        HISTORIALMANT ma = new HISTORIALMANT();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+        
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        LISTARFECHA ma = new LISTARFECHA();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+         LISTADOMAQUINAS ma = new LISTADOMAQUINAS();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,6 +367,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Pane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -259,6 +376,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
