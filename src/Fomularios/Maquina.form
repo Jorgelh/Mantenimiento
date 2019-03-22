@@ -424,6 +424,9 @@
                   <Insets value="[1, 1, 1, 1]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="FREC_MANTENIMIENTO">
             </Component>

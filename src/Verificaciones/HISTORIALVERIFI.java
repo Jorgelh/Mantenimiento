@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Mantenimientos;
+package Verificaciones;
+
+import Mantenimientos.*;
 
 /**
  *
  * @author jluis
  */
-public class HISTORIALMANT extends javax.swing.JInternalFrame {
+public class HISTORIALVERIFI extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form HISTORIALMANT
      */
-    public HISTORIALMANT() {
+    public HISTORIALVERIFI() {
         initComponents();
     }
 
@@ -127,20 +129,21 @@ public class HISTORIALMANT extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALMANT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIALVERIFI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALMANT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIALVERIFI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALMANT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIALVERIFI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALMANT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIALVERIFI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HISTORIALMANT().setVisible(true);
+                new HISTORIALVERIFI().setVisible(true);
             }
         });
     }

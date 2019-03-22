@@ -8,6 +8,7 @@ package Fomularios;
 import Mantenimientos.HISTORIALMANT;
 import Mantenimientos.LISTARFECHA;
 import Mantenimientos.Programar;
+import Verificaciones.LISTARPROXVERI;
 import Verificaciones.ProgramarVerificacion;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
@@ -191,6 +192,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Search.png"))); // NOI18N
         jMenuItem5.setText("PROXIMAS VERIFICACIONES");
         jMenuItem5.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Zoom.png"))); // NOI18N
@@ -270,7 +276,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
+
+        HISTORIALMANT ma = new HISTORIALMANT();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -330,6 +344,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ma.show();
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        LISTARPROXVERI ma = new LISTARPROXVERI();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -366,7 +389,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane Pane1;
+    public static javax.swing.JDesktopPane Pane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

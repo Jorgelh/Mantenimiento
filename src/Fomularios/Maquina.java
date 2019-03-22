@@ -5,6 +5,11 @@
  */
 package Fomularios;
 
+import Mantenimientos.Programar;
+import java.awt.Dimension;
+import static Fomularios.MenuPrincipal.Pane1;
+import Mantenimientos.TIPOMANTENIMIENTO;
+
 /**
  *
  * @author jluis
@@ -156,6 +161,11 @@ public class Maquina extends javax.swing.JInternalFrame {
 
         jButton1.setText("+");
         jButton1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("FRECUENCIA MANTENIMIENTO");
@@ -352,6 +362,18 @@ public class Maquina extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_GuargarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        
+        TIPOMANTENIMIENTO ma = new TIPOMANTENIMIENTO();
+        Pane1.add(ma); 
+        Dimension desktopSize = Pane1.getSize();
+        Dimension FrameSize = ma.getSize();
+        ma.setLocation((desktopSize.width - FrameSize.width)/2 , (desktopSize.height - FrameSize.height)/2);
+        ma.show();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
