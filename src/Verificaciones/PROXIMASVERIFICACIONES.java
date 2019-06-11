@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package Mantenimientos;
+package Verificaciones;
 
 import BD.Conn;
 import Class.Ingreso_Mantenimiento;
+import Class.Ingreso_Verificaciones;
 import Class.maquinas;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,20 +27,16 @@ import javax.swing.table.TableColumn;
  *
  * @author jluis
  */
-public class LISTARFECHA extends javax.swing.JInternalFrame {
+public class PROXIMASVERIFICACIONES extends javax.swing.JInternalFrame {
     
      
     /** Creates new form LISTARFECHA */
-    public LISTARFECHA() {
+    public PROXIMASVERIFICACIONES() {
         initComponents();
+        ListaProximasVeriTodas();
     }
-    
-    
-    
-    
-    
-    
-    private void ListaProximosManto() {
+   
+    private void ListaProximasVeri() {
         
         Date date = FECHAINICIO.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
@@ -49,27 +46,24 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yy");
         String fecha1 = sd.format(date2);
         
-        ArrayList<maquinas> result1 = Ingreso_Mantenimiento.ListarProximosManto(fecha,fecha1);
+        ArrayList<maquinas> result1 = Ingreso_Verificaciones.ListarProximasVerifi(fecha,fecha1);
         recargarTable(result1);
     }
     
     public void recargarTable(ArrayList<maquinas> list) {
-        Object[][] datos1 = new Object[list.size()][5];
+        Object[][] datos1 = new Object[list.size()][3];
         int i = 0;
         for (maquinas p : list)
         {
             datos1[i][0] = p.getNO();
             datos1[i][1] = p.getDESCRIPCION();
-            datos1[i][2] = p.getMANTE();
-            datos1[i][3] = p.getFRECUENCIAMANT();
-            
-            
+            datos1[i][2] = p.getFRECUENCIAMANT();
             i++;
         }
         PROXIMOS.setModel(new javax.swing.table.DefaultTableModel(
                 datos1,
                 new String[]{
-                    "CODIGO","DESCRIPCION","DESCRIPCION MANTENIMIENTO","FECHA PROXIMO MANTENIMIENTO"
+                    "CODIGO","DESCRIPCION","FECHA PROXIMO MANTENIMIENTO"
                 }) {
                      @Override
         public boolean isCellEditable(int row, int column) {
@@ -81,7 +75,43 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
         columna1.setPreferredWidth(0);
         TableColumn columna2 = PROXIMOS.getColumn("DESCRIPCION");
         columna2.setPreferredWidth(200);
-        TableColumn columna3 = PROXIMOS.getColumn("DESCRIPCION MANTENIMIENTO");
+        TableColumn columna3 = PROXIMOS.getColumn("FECHA PROXIMO MANTENIMIENTO");
+        columna3.setPreferredWidth(200);
+    }
+    
+     private void ListaProximasVeriTodas() {
+        
+        
+        ArrayList<maquinas> result1 = Ingreso_Verificaciones.ListarProximasVerifiTodo();
+        Table(result1);
+    }
+    
+    public void Table(ArrayList<maquinas> list) {
+        Object[][] datos1 = new Object[list.size()][3];
+        int i = 0;
+        for (maquinas p : list)
+        {
+            datos1[i][0] = p.getNO();
+            datos1[i][1] = p.getDESCRIPCION();
+            datos1[i][2] = p.getFRECUENCIAMANT();
+            i++;
+        }
+        PROXIMOS.setModel(new javax.swing.table.DefaultTableModel(
+                datos1,
+                new String[]{
+                    "CODIGO","DESCRIPCION","FECHA PROXIMO MANTENIMIENTO"
+                }) {
+                     @Override
+        public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        
+        TableColumn columna1 = PROXIMOS.getColumn("CODIGO");
+        columna1.setPreferredWidth(0);
+        TableColumn columna2 = PROXIMOS.getColumn("DESCRIPCION");
+        columna2.setPreferredWidth(200);
+        TableColumn columna3 = PROXIMOS.getColumn("FECHA PROXIMO MANTENIMIENTO");
         columna3.setPreferredWidth(200);
     }
 
@@ -106,7 +136,7 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("PROXIMOS MANTENIMIENTOS");
+        setTitle("PROXIMAS VERIFICACIONES");
         setToolTipText("");
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
@@ -116,7 +146,7 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CODIGO", "DESCRIPCION", "DESCRIPCION DE MANTENIMIENTO", "FECHA PROXIMO MANTENIMIENTO"
+                "CODIGO", "DESCRIPCION", "FECHA PROXIMO MANTENIMIENTO"
             }
         ));
         jScrollPane1.setViewportView(PROXIMOS);
@@ -147,10 +177,10 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(FECHAINICIO, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,18 +243,20 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
                 Date f2 = formato.parse(fe2);
 
                 if (f1.before(f2)) {
-                    ListaProximosManto();
+                    ListaProximasVeri();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "LA PRIMERA FECHA NO PUEDE SER MAYOR A LA SEGUNDA FECHA");
                 }
 
             } catch (ParseException ex) {
-                Logger.getLogger(LISTARFECHA.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PROXIMASVERIFICACIONES.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "INGRESE LAS FECHAS...");
+            ListaProximasVeriTodas();
+            //JOptionPane.showMessageDialog(null, "INGRESE LAS FECHAS...");
         }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -244,20 +276,21 @@ public class LISTARFECHA extends javax.swing.JInternalFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LISTARFECHA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PROXIMASVERIFICACIONES.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LISTARFECHA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PROXIMASVERIFICACIONES.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LISTARFECHA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PROXIMASVERIFICACIONES.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LISTARFECHA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PROXIMASVERIFICACIONES.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LISTARFECHA().setVisible(true);
+                new PROXIMASVERIFICACIONES().setVisible(true);
             }
         });
     }

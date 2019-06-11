@@ -5,8 +5,22 @@
  */
 package SolicitudesMant;
 
-import Verificaciones.*;
-import Mantenimientos.*;
+import BD.Conn;
+import Class.Ingreso_Mantenimiento;
+import Class.SOLICITUDES;
+import Class.ingreso_solicitudes;
+import Class.manto;
+import Class.maquinas;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -14,11 +28,80 @@ import Mantenimientos.*;
  */
 public class SolicitudMante extends javax.swing.JInternalFrame {
 
+    int no;
+    int depto;
+
     /**
      * Creates new form Programar
      */
     public SolicitudMante() {
         initComponents();
+        CODIGO.requestFocus();
+        FECHASOLICITUD.setEnabled(false);
+        DEPTO.setEnabled(false);
+        NOTA.setEnabled(false);
+        AGREGAR.setEnabled(false);
+        ListaSolicitudes();
+    }
+
+    public void idnew() {
+        try {
+            Connection con = Conn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select max(no_incidencias) from incidencias");
+            while (rs.next()) {
+                int lastID = rs.getInt(1);
+                no = lastID + 1;
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException error) {
+            System.out.print(error + " ERROR QUE OBTIENE EL ULTIMO ID DE INGRESO ");
+        }
+        // NO.setText(String.valueOf(no+1));
+    }
+
+    public void llenarmaquina() {
+        CODIGO.setEnabled(false);
+        try {
+            NOTA.setEnabled(true);
+            DEPTO.setEnabled(true);
+            AGREGAR.setEnabled(true);
+            FECHASOLICITUD.setEnabled(true);
+            NOTA.requestFocus();
+            SOLICITUDES p = ingreso_solicitudes.buscarMaquina(Integer.parseInt(CODIGO.getText()));
+            DESCRIPCION.setText(p.getDescripcion());
+            MODELO.setText(p.getModelo());
+            SN.setText(p.getSerie());
+            FABRICANTE.setText(p.getFabricante());
+        } catch (Exception e) {
+            System.out.println("Error de Seleccion:" + e);
+        }
+    }
+
+    public void fecha() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/YY HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        FECHASOLICITUD.setText(dateFormat.format(cal.getTime()));
+        AGREGAR.requestFocus();
+    }
+
+    public void limpiar() {
+        DESCRIPCION.setText("");
+        MODELO.setText("");
+        SN.setText("");
+        FABRICANTE.setText("");
+        NOTA.setText("");
+        DEPTO.setSelectedItem("SELECCIONAR...");
+        FECHASOLICITUD.setText("");
+        FECHASOLICITUD.setEnabled(false);
+        DEPTO.setEnabled(false);
+        NOTA.setEnabled(false);
+        AGREGAR.setEnabled(false);
+        FECHASOLICITUD.setEnabled(false);
+        CODIGO.setEnabled(true);
+        CODIGO.setText("");
         CODIGO.requestFocus();
     }
 
@@ -45,12 +128,17 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         FABRICANTE = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        AGREGAR = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        FECHAPROXIMO = new javax.swing.JTextField();
+        FECHASOLICITUD = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        NOTA = new javax.swing.JTextArea();
+        DEPTO = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Solicitud = new javax.swing.JTable();
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setText("FECHA DE MANTENIMIENTO");
@@ -65,28 +153,37 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
         jLabel1.setText("CODIGO");
 
         CODIGO.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        CODIGO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CODIGOActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("DESCRIPCION");
 
+        DESCRIPCION.setEditable(false);
         DESCRIPCION.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         DESCRIPCION.setForeground(new java.awt.Color(0, 102, 255));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("MODELO");
 
+        MODELO.setEditable(false);
         MODELO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         MODELO.setForeground(new java.awt.Color(0, 102, 255));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("S/N");
 
+        SN.setEditable(false);
         SN.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         SN.setForeground(new java.awt.Color(0, 102, 255));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("FABRICANTE");
 
+        FABRICANTE.setEditable(false);
         FABRICANTE.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         FABRICANTE.setForeground(new java.awt.Color(0, 102, 255));
 
@@ -105,7 +202,7 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(MODELO, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DESCRIPCION, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,74 +226,136 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("AGREGAR");
+        AGREGAR.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        AGREGAR.setText("AGREGAR");
+        AGREGAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AGREGARActionPerformed(evt);
+            }
+        });
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("DESCRIPCION DE LA FALLA");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel10.setText("FECHA INGRESO SOLICITUD");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("DEPARTAMENTO");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        FECHASOLICITUD.setEditable(false);
+        FECHASOLICITUD.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        FECHASOLICITUD.setForeground(new java.awt.Color(255, 0, 0));
+        FECHASOLICITUD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FECHASOLICITUDMouseClicked(evt);
+            }
+        });
+
+        NOTA.setColumns(20);
+        NOTA.setRows(5);
+        jScrollPane1.setViewportView(NOTA);
+
+        DEPTO.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        DEPTO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONAR...", "INSPECCION", "TESTING", "CHIPS", "STRIP Y POTTING", "TRANSFORMADORES", "TALLER", "BODEGA" }));
+        DEPTO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DEPTOActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setText("FECHA  SOLICITUD");
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
+        jButton1.setText("CANCELAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7))
+                        .addComponent(jLabel7)
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jButton1)))
-                .addContainerGap(15, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(FECHAPROXIMO, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(125, 125, 125))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(DEPTO, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(FECHASOLICITUD))
+                                .addContainerGap())
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(AGREGAR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
-                .addGap(1, 1, 1)
-                .addComponent(FECHAPROXIMO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(DEPTO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FECHASOLICITUD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(AGREGAR, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        Solicitud.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "CODIGO", "DESCRIPCION", "DEPARTAMENTO", "FALLA", "ESTADO"
+            }
+        ));
+        Solicitud.setRowSelectionAllowed(false);
+        jScrollPane2.setViewportView(Solicitud);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(19, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 10, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,10 +365,12 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
                     .addComponent(CODIGO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,13 +381,114 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CODIGOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CODIGOActionPerformed
+
+        try {
+            Connection con = Conn.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select COUNT(no) from maquinaria where no=" + CODIGO.getText());
+            rs.next();
+            int codigo = rs.getInt("count(no)");
+            if (codigo == 1) {
+
+                llenarmaquina();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "CODIGO " + CODIGO.getText() + " NO EXISTE");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERROR CONTACTE AL ADMINISTRADOR DEL SISTEMA" + e);
+        }
+    }//GEN-LAST:event_CODIGOActionPerformed
+
+    private void DEPTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DEPTOActionPerformed
+        fecha();
+        if (DEPTO.getSelectedItem().toString().equalsIgnoreCase("INSPECCION")) {depto = 1;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("TESTING")){depto = 2;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("CHIPS")){depto = 3;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("STRIP Y POTTING")){depto = 4;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("TRANSFORMADORES")){depto = 5;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("TALLER")){depto = 6;}
+        else if(DEPTO.getSelectedItem().toString().equalsIgnoreCase("BODEGA")){depto = 7;}
+    }//GEN-LAST:event_DEPTOActionPerformed
+
+    private void AGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGARActionPerformed
+
+        if (NOTA.getText().compareTo("") != 0 && FECHASOLICITUD.getText().compareTo("") != 0 && !DEPTO.getSelectedItem().toString().equalsIgnoreCase("SELECCIONAR...")) {
+            idnew();
+            try {
+                SOLICITUDES m = new SOLICITUDES();
+                m.setId_incidencia(no);
+                m.setCodigo(Integer.parseInt(CODIGO.getText()));
+                m.setNotas(NOTA.getText());
+                m.setFecha1(FECHASOLICITUD.getText());
+                m.setDepto(depto);
+                ingreso_solicitudes.NuevaSolicitud(m);
+                JOptionPane.showMessageDialog(null, "SOLICITUD INGRESADA...");
+                ListaSolicitudes();
+                limpiar();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR DE INSERTAR" + e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "LLENE TODOS LOS CAMPOS");
+        }
+    }//GEN-LAST:event_AGREGARActionPerformed
+    private void FECHASOLICITUDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FECHASOLICITUDMouseClicked
+        AGREGAR.requestFocus();
+    }//GEN-LAST:event_FECHASOLICITUDMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+            limpiar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ListaSolicitudes() {
+
+        ArrayList<SOLICITUDES> result1 = ingreso_solicitudes.ListarSolicitudes();
+        recargarTable(result1);
+    }
+
+    public void recargarTable(ArrayList<SOLICITUDES> list) {
+        Object[][] datos1 = new Object[list.size()][5];
+        int i = 0;
+        for (SOLICITUDES p : list) {
+            datos1[i][0] = p.getCodigo();
+            datos1[i][1] = p.getDescripcion();
+            datos1[i][2] = p.getDeparta();
+            datos1[i][3] = p.getNotas();
+            datos1[i][4] = p.getEstado();
+            i++;
+        }
+        Solicitud.setModel(new javax.swing.table.DefaultTableModel(
+                datos1,
+                new String[]{
+                    "CODIGO", "DESCRIPCION", "DEPARTAMENTO", "FALLA","ESTADO"
+                }) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+
+        TableColumn columna1 = Solicitud.getColumn("CODIGO");
+        columna1.setPreferredWidth(0);
+        TableColumn columna2 = Solicitud.getColumn("DESCRIPCION");
+        columna2.setPreferredWidth(200);
+        TableColumn columna3 = Solicitud.getColumn("DEPARTAMENTO");
+        columna3.setPreferredWidth(0);
+        TableColumn columna4 = Solicitud.getColumn("FALLA");
+        columna4.setPreferredWidth(200);
+        TableColumn columna5 = Solicitud.getColumn("ESTADO");
+        columna5.setPreferredWidth(50);
+    }
 
     /**
      * @param args the command line arguments
@@ -267,16 +529,21 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AGREGAR;
     private javax.swing.JTextField CODIGO;
+    private javax.swing.JComboBox<String> DEPTO;
     private javax.swing.JTextField DESCRIPCION;
     private javax.swing.JTextField FABRICANTE;
-    private javax.swing.JTextField FECHAPROXIMO;
+    private javax.swing.JTextField FECHASOLICITUD;
     private javax.swing.JTextField MODELO;
+    private javax.swing.JTextArea NOTA;
     private javax.swing.JTextField SN;
+    private javax.swing.JTable Solicitud;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -286,6 +553,6 @@ public class SolicitudMante extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
